@@ -1,1 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planet Exploration Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Explore the Planets</h1>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#planets">Planets</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="section">
+            <h2>Welcome to the Planet Exploration Game!</h2>
+            <p>Click on a planet to explore its features.</p>
+        </section>
+
+        <section id="planets" class="section">
+            <h2>Select a Planet to Explore</h2>
+            <div class="planet" data-planet="Mars">Mars</div>
+            <div class="planet" data-planet="Jupiter">Jupiter</div>
+            <div class="planet" data-planet="Saturn">Saturn</div>
+        </section>
+
+        <section id="planet-info" class="section hidden">
+            <h2 id="planet-name"></h2>
+            <img id="planet-image" src="" alt="">
+            <p id="planet-description"></p>
+            <button id="back-button">Back</button>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Planet Exploration Game</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
 
