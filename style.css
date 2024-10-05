@@ -49,4 +49,39 @@ footer {
     padding: 10px;
     background-color: #004080;
 }
+#rocket {
+    width: 50px;
+    height: 100px;
+    background: red;
+    position: relative;
+    margin: auto;
+    border-radius: 10px;
+    transition: transform 2s;
+}
+
+.launch {
+    transform: translateY(-600px); /* Adjust as needed */
+}
+.hidden {
+    display: none;
+}
+
+#customization-menu, #rocket-launch, #space-info, #exoplanets {
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    margin: 20px;
+    text-align: center;
+}
+
+button {
+    padding: 10px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+h2 {
+    color: #333;
+}
+
 
