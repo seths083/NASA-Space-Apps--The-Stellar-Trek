@@ -18,3 +18,20 @@ function animate() {
     renderer.render(scene, camera);
 }
 animate();
+const colorInput = document.getElementById('character-color');
+const hatSelect = document.getElementById('character-hat');
+const startButton = document.getElementById('start-adventure');
+
+startButton.addEventListener('click', () => {
+    // Save character customizations
+    const characterColor = colorInput.value;
+    const characterHat = hatSelect.value;
+
+    // Hide customization menu and show rocket launch
+    document.getElementById('customization-menu').classList.add('hidden');
+    document.getElementById('rocket-launch').classList.remove('hidden');
+
+    // Here you would add code to apply the customizations to the character model
+    console.log(`Character Color: ${characterColor}, Hat: ${characterHat}`);
+});
+
