@@ -1,51 +1,87 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NASA Space Exploration</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/loaders/GLTFLoader.js"></script>
-</head>
-<body>
-    <div id="canvas-container"></div>
-    
-    <div id="customization-menu" class="hidden">
-        <h2>Customize Your Character</h2>
-        <label for="character-color">Choose Color:</label>
-        <input type="color" id="character-color" value="#ff0000"><br>
-        <label for="character-hat">Choose Hat:</label>
-        <select id="character-hat">
-            <option value="none">None</option>
-            <option value="cap">Cap</option>
-            <option value="helmet">Space Helmet</option>
-        </select><br>
-        <button id="start-adventure">Start Adventure!</button>
-    </div>
+// Set up scene, camera, and renderer
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.getElementById('canvas-container').appendChild(renderer.domElement);
 
-    <div id="rocket-launch" class="hidden">
-        <h2>Rocket Launch!</h2>
-        <div id="rocket" class="rocket"></div>
-        <button id="launch-button">Launch Rocket!</button>
-    </div>
+// Add moving clouds
+const cloudGeometry = new THREE.SphereGeometry(5, 32, 32);
+const cloudMaterial = new THREE.MeshBasicMaterial({ 
+    map: new THREE.TextureLoader().load('path/to/your/cloudTexture.png'), // Add your cloud texture here
+    transparent: true 
+});
+const clouds = new THREE.Mesh(cloudGeometry, cloudMaterial);
+scene.add(clouds);
 
-    <div id="space-info" class="hidden">
-        <h2>Space Travel Facts</h2>
-        <div id="facts"></div>
-        <button id="next-fact">Next Fact</button>
-    </div>
+// Camera position
+camera.position.z = 10;
 
-    <div id="exoplanets">
-        <h2>Explore Exoplanets</h2>
-        <ul>
-            <li><button class="planet-button" data-info="Proxima Centauri b: An Earth-sized exoplanet orbiting Proxima Centauri.">Proxima Centauri b</button></li>
-            <li><button class="planet-button" data-info="TRAPPIST-1 d: A potentially habitable exoplanet.">TRAPPIST-1 d</button></li>
-            <li><button class="planet-button" data-info="Kepler-186f: The first Earth-sized planet found in the habitable zone of another star.">Kepler-186f</button></li>
-        </ul>
-        <div id="planet-info"></div>
-    </div>
+// Animation loop
+function animate() {
+    requestAnimationFrame(animate);
+    clouds.rotation.y += 0.01; // Rotate clouds
+    renderer.render(scene, camera);
+}
+animate();
 
-    <script src="script.js"></script>
-</body>
+// Character customization
+const colorInput = document.getElementById('character-color');
+const hatSelect = document.getElementById('character-hat');
+const startButton = document.getElementById('start-adventure');
+
+startButton.addEventListener('click', () => {
+    // Save character customizations
+    const characterColor = colorInput.value;
+    const characterHat = hatSelect.value;
+
+    // Hide customization menu and show rocket launch
+    document.getElementById('customization-menu').classList.add('hidden');
+    document.getElementById('rocket-launch').classList.remove('hidden');
+
+    console.log(`Character Color: ${characterColor}, Hat: ${characterHat}`);
+});
+
+// Rocket Launch Animation
+const launchButton = document.getElementById('launch-button');
+const rocket = document.getElementById('rocket');
+
+launchButton.addEventListener('click', () => {
+    rocket.classList.add('launch');
+    setTimeout(() => {
+        alert("Welcome to Space!");
+        // Show space info section after launch
+        document.getElementById('rocket-launch').classList.add('hidden');
+        document.getElementById('space-info').classList.remove('hidden');
+    }, 2000); // Alert after 2 seconds
+});
+
+// Space Facts
+const facts = [
+    "The Voyager 1 spacecraft is the farthest human-made object from Earth.",
+    "A day on Venus is longer than a year on Venus.",
+    "Neutron stars are so dense that a sugar-cube-sized amount would weigh as much as all of humanity."
+];
+let factIndex = 0;
+const factsContainer = document.getElementById('facts');
+const nextFactButton = document.getElementById('next-fact');
+
+nextFactButton.addEventListener('click', () => {
+    factIndex = (factIndex + 1) % facts.length;
+    factsContainer.textContent = facts[factIndex];
+});
+
+// Display the first fact when the page loads
+factsContainer.textContent = facts[factIndex];
+
+// Exoplanet Interaction
+const planetButtons = document.querySelectorAll('.planet-button');
+const planetInfo = document.getElementById('planet-info');
+
+planetButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        planetInfo.textContent = button.getAttribute('data-info');
+    });
+});
+
 </html>
