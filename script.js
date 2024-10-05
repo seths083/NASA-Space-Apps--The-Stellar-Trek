@@ -1,51 +1,20 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const planets = document.querySelectorAll('.planet');
-    const planetInfoSection = document.getElementById('planet-info');
-    const planetName = document.getElementById('planet-name');
-    const planetImage = document.getElementById('planet-image');
-    const planetDescription = document.getElementById('planet-description');
-    const backButton = document.getElementById('back-button');
+// Set up scene, camera, and renderer
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+const renderer = new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.getElementById('canvas-container').appendChild(renderer.domElement);
 
-    planets.forEach(planet => {
-        planet.addEventListener('click', () => {
-            const planetData = getPlanetData(planet.dataset.planet);
-            displayPlanetInfo(planetData);
-        });
-    });
+// Create moving clouds (basic example)
+const cloudGeometry = new THREE.SphereGeometry(10, 32, 32);
+const cloudMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, opacity: 0.5, transparent: true });
+const cloud = new THREE.Mesh(cloudGeometry, cloudMaterial);
+scene.add(cloud);
 
-    backButton.addEventListener('click', () => {
-        planetInfoSection.classList.add('hidden');
-        document.querySelector('#planets').classList.remove('hidden');
-    });
-
-    function displayPlanetInfo(data) {
-        planetName.textContent = data.name;
-        planetImage.src = data.image;
-        planetDescription.textContent = data.description;
-        planetInfoSection.classList.remove('hidden');
-        document.querySelector('#planets').classList.add('hidden');
-    }
-
-    function getPlanetData(planet) {
-        const planetsData = {
-            Mars: {
-                name: 'Mars',
-                image: 'assets/images/mars.jpg',
-                description: 'Mars is the fourth planet from the Sun and is known as the Red Planet due to its reddish appearance.'
-            },
-            Jupiter: {
-                name: 'Jupiter',
-                image: 'assets/images/jupiter.jpg',
-                description: 'Jupiter is the largest planet in our solar system and is known for its Great Red Spot.'
-            },
-            Saturn: {
-                name: 'Saturn',
-                image: 'assets/images/saturn.jpg',
-                description: 'Saturn is famous for its stunning rings, which are made of ice and rock particles.'
-            }
-        };
-
-        return planetsData[planet];
-    }
-});
-
+// Animation loop
+function animate() {
+    requestAnimationFrame(animate);
+    cloud.rotation.y += 0.01; // Rotate clouds
+    renderer.render(scene, camera);
+}
+animate();
